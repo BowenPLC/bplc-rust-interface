@@ -1,0 +1,6 @@
+[package]
+name = "bplc-rust-interface"
+version = "0.1.0"
+authors = ["Alex Bowen <ajbowen249@gmail.com>"]
+
+[dependencies]
