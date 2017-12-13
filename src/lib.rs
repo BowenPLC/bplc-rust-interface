@@ -1,4 +1,4 @@
-pub mod bplc {
+pub mod bplc_interface {
     pub mod program_iface {
         #[repr(C)]
         pub struct RawIfaceV1 {
@@ -11,7 +11,7 @@ pub mod bplc {
         }
 
         impl IfaceV1 {
-            pub fn new(raw: &RawIfaceV1) -> IfaceV1 {
+            pub fn new(raw: RawIfaceV1) -> IfaceV1 {
                 let set_digital_output: fn (id: usize, state: bool);
                 unsafe {
                     set_digital_output = ::std::mem::transmute::<usize, fn (usize, bool)>(raw.set_digital_output);
@@ -33,19 +33,19 @@ pub mod bplc {
 
     #[cfg(test)]
     mod test {
-        use bplc::program_iface::*;
-        use bplc::core_iface::*;
+        use bplc_interface::program_iface::*;
+        use bplc_interface::core_iface::*;
 
         struct FakeCore { }
 
         impl CoreV1 for FakeCore {
             fn set_digital_output(&mut self, id: usize, state: bool) {
-              assert_eq!(id, 2);
+                assert_eq!(id, 2);
                 assert_eq!(state, false);
             }
 
             fn get_digital_io(&mut self, _: usize) -> bool {
-                return true;
+                true
             }
         }
 
